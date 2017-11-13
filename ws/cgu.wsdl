@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<wsdl:definitions
+    name="CguWS"
+    targetNamespace="Cgu"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+    xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:tns="Cgu">
+
+  <wsdl:types>
+    <xsd:schema targetNamespace="Cgu">
+
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+
+      <xsd:complexType name="Unidade">
+        <xsd:all>
+          <xsd:element name="IdUnidade" type="xsd:string"/>
+          <xsd:element name="Sigla" type="xsd:string"/>
+          <xsd:element name="Descricao" type="xsd:string"/>
+        </xsd:all>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfUnidade">
+        <xsd:complexContent>
+          <xsd:restriction base="SOAP-ENC:Array">
+            <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Unidade[]" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:complexType name="Usuario">
+        <xsd:all>
+          <xsd:element name="IdUsuario" type="xsd:string"/>
+          <xsd:element name="Sigla" type="xsd:string"/>
+          <xsd:element name="Nome" type="xsd:string"/>
+        </xsd:all>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfUsuario">
+        <xsd:complexContent>
+          <xsd:restriction base="SOAP-ENC:Array">
+            <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Usuario[]" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:complexType name="TipoProcedimento">
+        <xsd:all>
+          <xsd:element name="IdTipoProcedimento" type="xsd:string"/>
+          <xsd:element name="Nome" type="xsd:string"/>
+        </xsd:all>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfTipoProcedimento">
+        <xsd:complexContent>
+          <xsd:restriction base="SOAP-ENC:Array">
+            <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:TipoProcedimento[]" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:complexType name="Serie">
+        <xsd:all>
+          <xsd:element name="IdSerie" type="xsd:string"/>
+          <xsd:element name="Nome" type="xsd:string"/>
+        </xsd:all>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfSerie">
+        <xsd:complexContent>
+          <xsd:restriction base="SOAP-ENC:Array">
+            <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Serie[]" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:complexType name="Andamento">
+        <xsd:all>
+          <xsd:element name="Descricao" type="xsd:string"/>
+          <xsd:element name="DataHora" type="xsd:string"/>
+          <xsd:element name="Unidade" type="tns:Unidade"/>
+          <xsd:element name="Usuario" type="tns:Usuario"/>
+        </xsd:all>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfAndamento">
+        <xsd:complexContent>
+          <xsd:restriction base="SOAP-ENC:Array">
+            <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Andamento[]" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:complexType name="UnidadeProcedimentoAberto">
+        <xsd:all>
+          <xsd:element name="Unidade" type="tns:Unidade"/>
+          <xsd:element name="UsuarioAtribuicao" type="tns:Usuario"/>
+        </xsd:all>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfUnidadeProcedimentoAberto">
+        <xsd:complexContent>
+          <xsd:restriction base="SOAP-ENC:Array">
+            <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:UnidadeProcedimentoAberto[]" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:complexType name="ProcedimentoResumido">
+        <xsd:all>
+          <xsd:element name="IdProcedimento" type="xsd:string"/>
+          <xsd:element name="ProcedimentoFormatado" type="xsd:string"/>
+          <xsd:element name="TipoProcedimento" type="tns:TipoProcedimento"/>
+        </xsd:all>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfProcedimentoResumido">
+        <xsd:complexContent>
+          <xsd:restriction base="SOAP-ENC:Array">
+            <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ProcedimentoResumido[]" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:complexType name="Assinatura">
+        <xsd:all>
+          <xsd:element name="Nome" type="xsd:string"/>
+          <xsd:element name="CargoFuncao" type="xsd:string"/>
+          <xsd:element name="DataHora" type="xsd:string"/>
+        </xsd:all>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfAssinatura">
+        <xsd:complexContent>
+          <xsd:restriction base="SOAP-ENC:Array">
+            <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Assinatura[]" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+        <xsd:complexType name="Destinatario">
+            <xsd:all>
+                <xsd:element name="IdContato" type="xsd:string"/>
+                <xsd:element name="NomeContato" type="xsd:string"/>
+                <xsd:element name="EmailContato" type="xsd:string"/>
+                <xsd:element name="SiglaUnidade" type="xsd:string"/>
+            </xsd:all>
+        </xsd:complexType>
+
+        <xsd:complexType name="ArrayOfDestinatario">
+            <xsd:complexContent>
+                <xsd:restriction base="SOAP-ENC:Array">
+                    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Destinatario[]" />
+                </xsd:restriction>
+            </xsd:complexContent>
+        </xsd:complexType>
+
+      <xsd:complexType name="PublicacaoImprensaNacional">
+        <xsd:all>
+          <xsd:element name="SiglaVeiculo" type="xsd:string"/>
+          <xsd:element name="DescricaoVeiculo" type="xsd:string"/>
+          <xsd:element name="Pagina" type="xsd:string"/>
+          <xsd:element name="Secao" type="xsd:string"/>
+          <xsd:element name="Data" type="xsd:string"/>
+        </xsd:all>
+      </xsd:complexType>
+
+      <xsd:complexType name="Publicacao">
+        <xsd:all>
+          <xsd:element name="NomeVeiculo" type="xsd:string"/>
+          <xsd:element name="Numero" type="xsd:string"/>
+          <xsd:element name="DataDisponibilizacao" type="xsd:string"/>
+          <xsd:element name="DataPublicacao" type="xsd:string"/>
+          <xsd:element name="Estado" type="xsd:string"/>
+          <xsd:element name="ImprensaNacional" type="tns:PublicacaoImprensaNacional"/>
+        </xsd:all>
+      </xsd:complexType>
+
+
+      <xsd:complexType name="RetornoConsultaDocumento">
+        <xsd:all>
+          <xsd:element name="IdProcedimento" type="xsd:string"/>
+          <xsd:element name="ProcedimentoFormatado" type="xsd:string"/>
+          <xsd:element name="IdDocumento" type="xsd:string"/>
+          <xsd:element name="DocumentoFormatado" type="xsd:string"/>
+          <xsd:element name="LinkAcesso" type="xsd:string"/>
+          <xsd:element name="Serie" type="tns:Serie"/>
+          <xsd:element name="Numero" type="xsd:string"/>
+          <xsd:element name="Data" type="xsd:string"/>
+          <xsd:element name="UnidadeElaboradora" type="tns:Unidade"/>
+          <xsd:element name="AndamentoGeracao" type="tns:Andamento"/>
+          <xsd:element name="Assinaturas" type="tns:ArrayOfAssinatura"/>
+          <xsd:element name="Publicacao" type="tns:Publicacao"/>
+          <xsd:element name="Destinatarios" type="tns:ArrayOfDestinatario"/>
+        </xsd:all>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfRetornoConsultaDocumento">
+          <xsd:complexContent>
+              <xsd:restriction base="SOAP-ENC:Array">
+                  <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:RetornoConsultaDocumento[]" />
+              </xsd:restriction>
+          </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:complexType name="RetornoListaAndamentos">
+        <xsd:all>
+          <xsd:element name="IdProcedimento" type="xsd:string"/>
+          <xsd:element name="ProcedimentoFormatado" type="xsd:string"/>
+          <xsd:element name="TipoProcedimento" type="tns:TipoProcedimento"/>
+          <xsd:element name="Andamentos" type="tns:ArrayOfAndamento"/>
+        </xsd:all>
+      </xsd:complexType>
+
+      <xsd:complexType name="RequisicaoConsultaTramite">
+        <xsd:all>
+          <xsd:element name="IdProcedimento" type="xsd:string"/>
+          <xsd:element name="DataAbertura" type="xsd:string"/>
+        </xsd:all>
+      </xsd:complexType>
+
+
+      <!--<element name="ArrayOfRequisicaoConsultaTramite">
+        <complexType base="SOAP-ENC:Array">
+          <element name="requisicaoConsultaTramite" type="tns:RequisicaoConsultaTramite" maxOccurs="unbounded"/>
+        </complexType>
+        <anyAttribute/>
+      </element>-->
+
+      <xsd:complexType name="ArrayOfRequisicaoConsultaTramite">
+        <xsd:complexContent>
+          <xsd:restriction base="SOAP-ENC:Array">
+            <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:RequisicaoConsultaTramite[]" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+    <xsd:complexType name="ListaDeProcedimentos">
+      <xsd:all>
+        <xsd:element name="IdProtocolo" type="xsd:string"/>
+      </xsd:all>
+    </xsd:complexType>
+
+    <!--<element name="ArrayOfListaDeProcedimentos">
+      <complexType base="SOAP-ENC:Array">
+        <element name="listaDeProcedimentos" type="tns:ListaDeProcedimentos" maxOccurs="unbounded"/>
+      </complexType>
+      <anyAttribute/>
+    </element>-->
+
+    <xsd:complexType name="ArrayOfListaDeProcedimentos">
+      <xsd:complexContent>
+        <xsd:restriction base="SOAP-ENC:Array">
+          <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ListaDeProcedimentos[]" />
+        </xsd:restriction>
+      </xsd:complexContent>
+    </xsd:complexType>
+
+    </xsd:schema>
+
+  </wsdl:types>
+
+
+  <wsdl:message name="listarProcedimentosRequest">
+    <wsdl:part name="SiglaSistema" type="xsd:string"/>
+    <wsdl:part name="IdentificacaoServico" type="xsd:string"/>
+    <wsdl:part name="IdUnidade" type="xsd:string"/>
+    <wsdl:part name="ProtocoloProcedimento" type="xsd:string"/>
+    <wsdl:part name="Interessado" type="xsd:string"/>
+    <wsdl:part name="DescricaoAssunto" type="xsd:string"/>
+    <wsdl:part name="IdTipoProcedimento" type="xsd:string"/>
+    <wsdl:part name="NomeTipoProcedimento" type="xsd:string"/>
+    <wsdl:part name="ClassificacaoAssunto" type="xsd:string"/>
+    <wsdl:part name="DataInicialRegistroProcedimento" type="xsd:string"/>
+    <wsdl:part name="DataFinalRegistroProcedimento" type="xsd:string"/>
+    <wsdl:part name="UnidadeProcedimentoAberto" type="xsd:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="listarProcedimentosResponse">
+    <wsdl:part name="parametros" type="tns:ArrayOfProcedimentoResumido"/>
+  </wsdl:message>
+
+  <wsdl:message name="listarDocumentosRequest">
+    <wsdl:part name="SiglaSistema" type="xsd:string"/>
+    <wsdl:part name="IdentificacaoServico" type="xsd:string"/>
+    <wsdl:part name="IdUnidade" type="xsd:string"/>
+    <wsdl:part name="ProtocoloProcedimento" type="xsd:string"/>
+    <wsdl:part name="ProtocoloDocumento" type="xsd:string"/>
+    <wsdl:part name="NumeroDocumento" type="xsd:string"/>
+    <wsdl:part name="Serie" type="xsd:string"/>
+    <wsdl:part name="UnidadeElaboradora" type="xsd:string"/>
+    <wsdl:part name="DataInicial" type="xsd:string"/>
+    <wsdl:part name="DataFinal" type="xsd:string"/>
+    <wsdl:part name="SinRetornarAndamentoGeracao" type="xsd:string"/>
+    <wsdl:part name="SinRetornarAssinaturas" type="xsd:string"/>
+    <wsdl:part name="SinRetornarPublicacao" type="xsd:string"/>
+    <wsdl:part name="SinRetornarDestinatarios" type="xsd:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="listarDocumentosResponse">
+    <wsdl:part name="parametros" type="tns:ArrayOfRetornoConsultaDocumento"/>
+  </wsdl:message>
+
+  <wsdl:message name="listarAndamentosRequest">
+    <wsdl:part name="SiglaSistema" type="xsd:string"/>
+    <wsdl:part name="IdentificacaoServico" type="xsd:string"/>
+    <wsdl:part name="IdUnidade" type="xsd:string"/>
+    <wsdl:part name="ProtocoloProcedimento" type="xsd:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="listarAndamentosResponse">
+    <wsdl:part name="parametros" type="tns:RetornoListaAndamentos"/>
+  </wsdl:message>
+
+  <wsdl:message name="listarProcedimentosTramitadosParaAreaRequest">
+    <wsdl:part name="SiglaSistema" type="xsd:string"/>
+    <wsdl:part name="IdentificacaoServico" type="xsd:string"/>
+    <wsdl:part name="IdUnidade" type="xsd:string"/>
+    <wsdl:part name="RequisicaoTramite" type="tns:ArrayOfRequisicaoConsultaTramite"/>
+    <wsdl:part name="IdUnidadePesquisa" type="xsd:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="listarProcedimentosTramitadosParaAreaResponse">
+    <wsdl:part name="parametros" type="tns:ArrayOfListaDeProcedimentos"/>
+  </wsdl:message>
+
+  <wsdl:portType name="CguPortType">
+    <wsdl:operation name="listarProcedimentos">
+      <wsdl:documentation>Consulta de processos</wsdl:documentation>
+      <wsdl:input message="tns:listarProcedimentosRequest"/>
+      <wsdl:output message="tns:listarProcedimentosResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="listarDocumentos">
+      <wsdl:documentation>Consulta de documentos</wsdl:documentation>
+      <wsdl:input message="tns:listarDocumentosRequest"/>
+      <wsdl:output message="tns:listarDocumentosResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="listarAndamentos">
+      <wsdl:documentation>Consulta de andamentos</wsdl:documentation>
+      <wsdl:input message="tns:listarAndamentosRequest"/>
+      <wsdl:output message="tns:listarAndamentosResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="listarProcedimentosTramitadosParaArea">
+      <wsdl:documentation>Consulta de andamentos Tramitados para determinada Área</wsdl:documentation>
+      <wsdl:input message="tns:listarProcedimentosTramitadosParaAreaRequest"/>
+      <wsdl:output message="tns:listarProcedimentosTramitadosParaAreaResponse"/>
+    </wsdl:operation>
+
+  </wsdl:portType>
+
+  <wsdl:binding name="CguBinding" type="tns:CguPortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <wsdl:operation name="listarProcedimentos">
+      <soap:operation soapAction="CguAction" />
+      <wsdl:input>
+        <soap:body namespace="Cgu" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body namespace="Cgu" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="listarDocumentos">
+      <soap:operation soapAction="CguAction" />
+      <wsdl:input>
+        <soap:body namespace="Cgu" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body namespace="Cgu" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="listarAndamentos">
+      <soap:operation soapAction="CguAction" />
+      <wsdl:input>
+        <soap:body namespace="Cgu" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body namespace="Cgu" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="listarProcedimentosTramitadosParaArea">
+      <soap:operation soapAction="CguAction" />
+      <wsdl:input>
+        <soap:body namespace="Cgu" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body namespace="Cgu" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+  </wsdl:binding>
+
+  <wsdl:service name="CguService">
+    <wsdl:port name="CguPortService" binding="tns:CguBinding">
+      <soap:address location="https://sei.cgu.gov.br/sei/modulos/cgu/wscomplementar/ws/CguWS.php"/>
+    </wsdl:port>
+  </wsdl:service>
+
+
+</wsdl:definitions>
