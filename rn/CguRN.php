@@ -1,6 +1,6 @@
 <?
 /**
-* CONTROLADORIA GERAL DA UNIÃO
+* CONTROLADORIA GERAL DA UNIÃƒO
 *
 * 25/06/2015 - criado por Rafael Leandro Ferreira
 *
@@ -31,23 +31,22 @@ class CguRN extends InfraRN {
     	$objUnidadeDTO = $objWSEntradaListarDocumentoDTO->getObjUnidadeDTO();
 
     	if (!InfraUtil::isBolSinalizadorValido($objWSEntradaListarDocumentoDTO->getStrSinRetornarAndamentoGeracao())) {
-    		$objInfraException->adicionarValidacao('Sinalizador de retorno para andamento de geração inválido.');
+    		$objInfraException->adicionarValidacao('Sinalizador de retorno para andamento de geraÃ§Ã£o invÃ¡lido.');
     	}
     	 
     	if (!InfraUtil::isBolSinalizadorValido($objWSEntradaListarDocumentoDTO->getStrSinRetornarAssinaturas())) {
-    		$objInfraException->adicionarValidacao('Sinalizador de retorno para assinaturas inválido.');
+    		$objInfraException->adicionarValidacao('Sinalizador de retorno para assinaturas invÃ¡lido.');
     	}
 
     	if (!InfraUtil::isBolSinalizadorValido($objWSEntradaListarDocumentoDTO->getStrSinRetornarPublicacao())) {
-    		$objInfraException->adicionarValidacao('Sinalizador de retorno para publicação inválido.');
+    		$objInfraException->adicionarValidacao('Sinalizador de retorno para publicaÃ§Ã£o invÃ¡lido.');
     	}
 
         if (!InfraUtil::isBolSinalizadorValido($objWSEntradaListarDocumentoDTO->getStrSinRetornarDestinatarios())) {
-            $objInfraException->adicionarValidacao('Sinalizador de retorno para destinatários inválido.');
+            $objInfraException->adicionarValidacao('Sinalizador de retorno para destinatÃ¡rios invÃ¡lido.');
         }
 
-
-    	$dto = new DocumentoDTO();
+        $dto = new DocumentoDTO();
     	$dto->retDblIdDocumento();
     	$dto->retDblIdProcedimento();
     	$dto->retStrProtocoloDocumentoFormatado();
@@ -59,7 +58,8 @@ class CguRN extends InfraRN {
     	$dto->retDtaGeracaoProtocolo();
     	$dto->retStrStaProtocoloProtocolo();
     	$dto->retStrSinBloqueado();
-    	
+        $dto->retStrStaDocumento();
+
     	$dto->retNumIdUnidadeGeradoraProtocolo();
     	$dto->retStrSiglaUnidadeGeradoraProtocolo();
     	$dto->retStrDescricaoUnidadeGeradoraProtocolo();
@@ -67,6 +67,15 @@ class CguRN extends InfraRN {
 
 
         if ($objDocumentoDTO!='') {
+
+            if ($objDocumentoDTO->getStrProtocoloDocumentoFormatado()==''
+                && $objDocumentoDTO->getStrProtocoloProcedimentoFormatado() ==''
+                && $objDocumentoDTO->getStrNumero()==''
+                && $objDocumentoDTO->getNumIdSerie()=='') {
+
+                $objInfraException->lancarValidacao('Ã‰ necessÃ¡rio informar ao menos um dos parÃ¢metros da pesquisa.');
+
+            }
 
             if ($objDocumentoDTO->getStrProtocoloDocumentoFormatado()!='') {
                 $dto->setStrProtocoloDocumentoFormatadoPesquisa($objDocumentoDTO->getStrProtocoloDocumentoFormatado());
@@ -107,7 +116,7 @@ class CguRN extends InfraRN {
     	$arrDto = $objDocumentoRN->listarRN0008($dto);
 
     	if ($arrDto==null){
-    		$objInfraException->lancarValidacao('Nenhum documento encontrado com os parâmetros informados.');
+    		$objInfraException->lancarValidacao('Nenhum documento encontrado com os parÃ¢metros informados.');
       }
         
       $i = 0;
@@ -128,7 +137,7 @@ class CguRN extends InfraRN {
 
               $objProtocoloRN = new ProtocoloRN();
               if (count($objProtocoloRN->pesquisarRN0967($objPesquisaProtocoloDTO)) == 0) {
-                  $objInfraException->lancarValidacao('Unidade [' . $objUnidadeDTO->getStrSigla() . '] não possui acesso ao documento [' . $objDocumentoDTO->getStrProtocoloDocumentoFormatado() . '].');
+                  $objInfraException->lancarValidacao('Unidade [' . $objUnidadeDTO->getStrSigla() . '] nÃ£o possui acesso ao documento [' . $objDocumentoDTO->getStrProtocoloDocumentoFormatado() . '].');
               }
           }*/
 
@@ -153,16 +162,16 @@ class CguRN extends InfraRN {
           $objOperacaoServicoRN = new OperacaoServicoRN();
           if ($objOperacaoServicoRN->contar($objOperacaoServicoDTO) == 0) {
               if ($objUnidadeDTO == null) {
-                  $objInfraException->lancarValidacao('Nenhum serviço configurado para consulta deste documento [' . $objDocumentoDTO->getStrProtocoloDocumentoFormatado() . '] pelo Serviço [' . $objServicoDTO->getStrIdentificacao() . '].');
+                  $objInfraException->lancarValidacao('Nenhum serviÃ§o configurado para consulta deste documento [' . $objDocumentoDTO->getStrProtocoloDocumentoFormatado() . '] pelo ServiÃ§o [' . $objServicoDTO->getStrIdentificacao() . '].');
               } else {
-                  $objInfraException->lancarValidacao('Nenhum serviço configurado para consulta deste documento [' . $objDocumentoDTO->getStrProtocoloDocumentoFormatado() . '] na unidade [' . $objUnidadeDTO->getStrSigla() . '] pelo Serviço [' . $objServicoDTO->getStrIdentificacao() . '].');
+                  $objInfraException->lancarValidacao('Nenhum serviÃ§o configurado para consulta deste documento [' . $objDocumentoDTO->getStrProtocoloDocumentoFormatado() . '] na unidade [' . $objUnidadeDTO->getStrSigla() . '] pelo ServiÃ§o [' . $objServicoDTO->getStrIdentificacao() . '].');
               }
 
           }
 
           $objInfraException->lancarValidacoes();
 
-          //verifica se o usuário já tem acesso ao processo
+          //verifica se o usuÃ¡rio jÃ¡ tem acesso ao processo
           $objAcessoExternoDTO = new AcessoExternoDTO();
           $objAcessoExternoDTO->retNumIdAcessoExterno();
           $objAcessoExternoDTO->setDblIdProtocoloAtividade($objDocumentoDTO->getDblIdProcedimento());
@@ -293,7 +302,7 @@ class CguRN extends InfraRN {
       return $arrObjWSRetornoConsultarDocumentoDTO;
 
     }catch(Exception $e){
-      throw new InfraException('Erro no serviço de consulta de documento.',$e);
+      throw new InfraException('Erro no serviÃ§o de consulta de documento.',$e);
     }
   }
 
@@ -392,7 +401,7 @@ class CguRN extends InfraRN {
             $arrDto = $objProcedimentoRN->listarRN0278($dto);
 
             if ($arrDto==null){
-                $objInfraException->lancarValidacao('Nenhum processo encontrado para os parâmetros informados.');
+                $objInfraException->lancarValidacao('Nenhum processo encontrado para os parÃ¢metros informados.');
             }
 
             $i = 0;
@@ -409,7 +418,7 @@ class CguRN extends InfraRN {
 
                     $objProtocoloRN = new ProtocoloRN();
                     if (count($objProtocoloRN->pesquisarRN0967($objPesquisaProtocoloDTO)) == 0) {
-                        $objInfraException->lancarValidacao('Unidade [' . $objUnidadeDTO->getStrSigla() . '] não possui acesso ao processo [' . $objProcedimentoDTO->getStrProtocoloProcedimentoFormatado() . '].');
+                        $objInfraException->lancarValidacao('Unidade [' . $objUnidadeDTO->getStrSigla() . '] nÃ£o possui acesso ao processo [' . $objProcedimentoDTO->getStrProtocoloProcedimentoFormatado() . '].');
                     }
                 }
 
@@ -429,15 +438,15 @@ class CguRN extends InfraRN {
                 $objOperacaoServicoRN = new OperacaoServicoRN();
                 if ($objOperacaoServicoRN->contar($objOperacaoServicoDTO) == 0) {
                     if ($objUnidadeDTO == null) {
-                        $objInfraException->lancarValidacao('Nenhum serviço configurado para consulta deste processo [' . $objProcedimentoDTO->getStrProtocoloProcedimentoFormatado() . '] pelo Serviço [' . $objServicoDTO->getStrIdentificacao() . '].');
+                        $objInfraException->lancarValidacao('Nenhum serviÃ§o configurado para consulta deste processo [' . $objProcedimentoDTO->getStrProtocoloProcedimentoFormatado() . '] pelo ServiÃ§o [' . $objServicoDTO->getStrIdentificacao() . '].');
                     } else {
-                        $objInfraException->lancarValidacao('Nenhum serviço configurado para consulta deste processo [' . $objProcedimentoDTO->getStrProtocoloProcedimentoFormatado() . '] na unidade [' . $objUnidadeDTO->getStrSigla() . '] pelo Serviço [' . $objServicoDTO->getStrIdentificacao() . '].');
+                        $objInfraException->lancarValidacao('Nenhum serviÃ§o configurado para consulta deste processo [' . $objProcedimentoDTO->getStrProtocoloProcedimentoFormatado() . '] na unidade [' . $objUnidadeDTO->getStrSigla() . '] pelo ServiÃ§o [' . $objServicoDTO->getStrIdentificacao() . '].');
                     }
                 }
 
                 $objInfraException->lancarValidacoes();
 
-                //verifica se o usuário já tem acesso ao processo
+                //verifica se o usuÃ¡rio jÃ¡ tem acesso ao processo
                 $objAcessoExternoDTO = new AcessoExternoDTO();
                 $objAcessoExternoDTO->retNumIdAcessoExterno();
                 $objAcessoExternoDTO->setDblIdProtocoloAtividade($objProcedimentoDTO->getDblIdProcedimento());
@@ -481,7 +490,7 @@ class CguRN extends InfraRN {
             return $ArrObjWSRetornoConsultarProcedimentoDTO;
 
         }catch(Exception $e){
-            throw new InfraException('Erro no serviço de consulta de procedimento.',$e);
+            throw new InfraException('Erro no serviÃ§o de consulta de procedimento.',$e);
         }
     }
 
@@ -511,7 +520,7 @@ class CguRN extends InfraRN {
             $dto = $objProcedimentoRN->consultarRN0201($dto);
 
             if ($dto==null){
-                $objInfraException->lancarValidacao('Processo '.$objProcedimentoDTO->getStrProtocoloProcedimentoFormatado().' não encontrado.');
+                $objInfraException->lancarValidacao('Processo '.$objProcedimentoDTO->getStrProtocoloProcedimentoFormatado().' nÃ£o encontrado.');
             }
 
             $objProcedimentoDTO = $dto;
@@ -536,7 +545,7 @@ class CguRN extends InfraRN {
             return $objWSRetornoListarAndamentosDTO;
 
         }catch(Exception $e){
-            throw new InfraException('Erro no serviço de consulta de andamentos.',$e);
+            throw new InfraException('Erro no serviÃ§o de consulta de andamentos.',$e);
         }
   }
 
@@ -563,7 +572,7 @@ class CguRN extends InfraRN {
             $dto = $objProcedimentoRN->consultarRN0201($dto);
 
             if ($dto==null){
-                $objInfraException->lancarValidacao('Processo '.$objProcedimentoDTO->getStrProtocoloProcedimentoFormatado().' não encontrado.');
+                $objInfraException->lancarValidacao('Processo '.$objProcedimentoDTO->getStrProtocoloProcedimentoFormatado().' nÃ£o encontrado.');
             }
 
             $objProcedimentoDTO = $dto;*/
@@ -588,7 +597,7 @@ class CguRN extends InfraRN {
             return $objWSRetornoListarAndamentosDTO;
 
         }catch(Exception $e){
-            throw new InfraException('Erro no serviço de consulta de andamentos.',$e);
+            throw new InfraException('Erro no serviÃ§o de consulta de andamentos.',$e);
         }
     }
 
@@ -605,7 +614,7 @@ class CguRN extends InfraRN {
       //filtra somente processos
       $objParticipanteDTO->setStrStaProtocoloProtocolo(ProtocoloRN::$TP_PROCEDIMENTO);
 
-      //como não tem paginação é bom limitar
+      //como nÃ£o tem paginaÃ§Ã£o Ã© bom limitar
       $objParticipanteDTO->setNumMaxRegistrosRetorno(500);
 
       $objParticipanteRN = new ParticipanteRN();
@@ -631,14 +640,14 @@ class CguRN extends InfraRN {
         $objRelProtocoloAssuntoDTO->retNumIdAssunto();
         $objRelProtocoloAssuntoDTO->setStrCodigoEstruturadoAssunto($ClassificacaoAssunto);
 
-        //como não tem paginação é bom limitar
+        //como nÃ£o tem paginaÃ§Ã£o Ã© bom limitar
         $objRelProtocoloAssuntoDTO->setNumMaxRegistrosRetorno(500);
 
         $objRelProtocoloAssuntoRN = new RelProtocoloAssuntoRN();
         $arrAssuntos = $objRelProtocoloAssuntoRN->listarRN0188($objRelProtocoloAssuntoDTO);
 
         if (count($arrAssuntos)==0){
-            throw new InfraException('Nenhuma Classificação de Assunto encontrado!'); }
+            throw new InfraException('Nenhuma ClassificaÃ§Ã£o de Assunto encontrado!'); }
 
         $ret = array();
         foreach($arrAssuntos as $Assuntos){
@@ -661,7 +670,7 @@ class CguRN extends InfraRN {
       $arrObjPendenciaDTO = $objAtividadeRN->listarPendenciasRN0754($objPesquisaPendenciaDTO);
 
       if (count($arrObjPendenciaDTO)==0){
-          throw new InfraException('Nenhum Procedimento com Pendência para a Unidade Informada!'); }
+          throw new InfraException('Nenhum Procedimento com PendÃªncia para a Unidade Informada!'); }
 
       $ret = array();
 
@@ -726,28 +735,28 @@ class CguRN extends InfraRN {
 
   private function adicionarCriteriosProcessoDocumento(OperacaoServicoDTO $objOperacaoServicoDTO, ProcedimentoDTO $objProcedimentoDTO, DocumentoDTO $objDocumentoDTO){
   
-    //qualquer série em qualquer tipo de procedimento
+    //qualquer sÃ©rie em qualquer tipo de procedimento
     $objOperacaoServicoDTO->adicionarCriterio(array('IdSerie','IdTipoProcedimento'),
         array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),
         array(null,null),
         array(InfraDTO::$OPER_LOGICO_AND),
         'c1');
   
-    //esta série em qualquer tipo de procedimento
+    //esta sÃ©rie em qualquer tipo de procedimento
     $objOperacaoServicoDTO->adicionarCriterio(array('IdSerie','IdTipoProcedimento'),
         array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),
         array($objDocumentoDTO->getNumIdSerie(),null),
         array(InfraDTO::$OPER_LOGICO_AND),
         'c2');
   
-    //qualquer série neste tipo de procedimento
+    //qualquer sÃ©rie neste tipo de procedimento
     $objOperacaoServicoDTO->adicionarCriterio(array('IdSerie','IdTipoProcedimento'),
         array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),
         array(null, $objProcedimentoDTO->getNumIdTipoProcedimento()),
         array(InfraDTO::$OPER_LOGICO_AND),
         'c3');
   
-    //esta série neste tipo de procedimento
+    //esta sÃ©rie neste tipo de procedimento
     $objOperacaoServicoDTO->adicionarCriterio(array('IdSerie','IdTipoProcedimento'),
         array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),
         array($objDocumentoDTO->getNumIdSerie(), $objProcedimentoDTO->getNumIdTipoProcedimento()),
@@ -762,56 +771,56 @@ class CguRN extends InfraRN {
 
   private function adicionarCriteriosUnidadeProcessoDocumento(OperacaoServicoDTO $objOperacaoServicoDTO, UnidadeDTO $objUnidadeDTO, ProcedimentoDTO $objProcedimentoDTO, DocumentoDTO $objDocumentoDTO){
 
-    //qualquer série em qualquer unidade em qualquer tipo de procedimento
+    //qualquer sÃ©rie em qualquer unidade em qualquer tipo de procedimento
     $objOperacaoServicoDTO->adicionarCriterio(array('IdSerie','IdUnidade','IdTipoProcedimento'),
         array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),
         array(null,null,null),
         array(InfraDTO::$OPER_LOGICO_AND,InfraDTO::$OPER_LOGICO_AND),
         'c1');
     
-    //esta série em qualquer unidade em qualquer tipo de procedimento
+    //esta sÃ©rie em qualquer unidade em qualquer tipo de procedimento
     $objOperacaoServicoDTO->adicionarCriterio(array('IdSerie','IdUnidade','IdTipoProcedimento'),
         array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),
         array($objDocumentoDTO->getNumIdSerie(),null,null),
         array(InfraDTO::$OPER_LOGICO_AND,InfraDTO::$OPER_LOGICO_AND),
         'c2');
     
-    //qualquer série nesta unidade em qualquer tipo de procedimento
+    //qualquer sÃ©rie nesta unidade em qualquer tipo de procedimento
     $objOperacaoServicoDTO->adicionarCriterio(array('IdSerie','IdUnidade','IdTipoProcedimento'),
         array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),
         array(null, $objUnidadeDTO->getNumIdUnidade(),null),
         array(InfraDTO::$OPER_LOGICO_AND,InfraDTO::$OPER_LOGICO_AND),
         'c3');
     
-    //qualquer série em qualquer unidade neste tipo de procedimento
+    //qualquer sÃ©rie em qualquer unidade neste tipo de procedimento
     $objOperacaoServicoDTO->adicionarCriterio(array('IdSerie','IdUnidade','IdTipoProcedimento'),
         array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),
         array(null, null ,$objProcedimentoDTO->getNumIdTipoProcedimento()),
         array(InfraDTO::$OPER_LOGICO_AND,InfraDTO::$OPER_LOGICO_AND),
         'c4');
     
-    //esta série nesta unidade em qualquer tipo de procedimento
+    //esta sÃ©rie nesta unidade em qualquer tipo de procedimento
     $objOperacaoServicoDTO->adicionarCriterio(array('IdSerie','IdUnidade','IdTipoProcedimento'),
         array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),
         array($objDocumentoDTO->getNumIdSerie(), $objUnidadeDTO->getNumIdUnidade(),null),
         array(InfraDTO::$OPER_LOGICO_AND,InfraDTO::$OPER_LOGICO_AND),
         'c5');
     
-    //esta série em qualquer unidade neste tipo de procedimento
+    //esta sÃ©rie em qualquer unidade neste tipo de procedimento
     $objOperacaoServicoDTO->adicionarCriterio(array('IdSerie','IdUnidade','IdTipoProcedimento'),
         array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),
         array($objDocumentoDTO->getNumIdSerie(), null,$objProcedimentoDTO->getNumIdTipoProcedimento()),
         array(InfraDTO::$OPER_LOGICO_AND,InfraDTO::$OPER_LOGICO_AND),
         'c6');
     
-    //qualquer série nesta unidade neste tipo de procedimento
+    //qualquer sÃ©rie nesta unidade neste tipo de procedimento
     $objOperacaoServicoDTO->adicionarCriterio(array('IdSerie','IdUnidade','IdTipoProcedimento'),
         array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),
         array(null, $objUnidadeDTO->getNumIdUnidade(),$objProcedimentoDTO->getNumIdTipoProcedimento()),
         array(InfraDTO::$OPER_LOGICO_AND,InfraDTO::$OPER_LOGICO_AND),
         'c7');
     
-    //esta série nesta unidade neste tipo de procedimento
+    //esta sÃ©rie nesta unidade neste tipo de procedimento
     $objOperacaoServicoDTO->adicionarCriterio(array('IdSerie','IdUnidade','IdTipoProcedimento'),
         array(InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL,InfraDTO::$OPER_IGUAL),
         array($objDocumentoDTO->getNumIdSerie(), $objUnidadeDTO->getNumIdUnidade(),$objProcedimentoDTO->getNumIdTipoProcedimento()),
