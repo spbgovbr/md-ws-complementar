@@ -46,7 +46,8 @@ class CguRN extends InfraRN {
             $objInfraException->adicionarValidacao('Sinalizador de retorno para destinatários inválido.');
         }
 
-        $dto = new DocumentoDTO();
+
+    	$dto = new DocumentoDTO();
     	$dto->retDblIdDocumento();
     	$dto->retDblIdProcedimento();
     	$dto->retStrProtocoloDocumentoFormatado();
@@ -58,8 +59,7 @@ class CguRN extends InfraRN {
     	$dto->retDtaGeracaoProtocolo();
     	$dto->retStrStaProtocoloProtocolo();
     	$dto->retStrSinBloqueado();
-        $dto->retStrStaDocumento();
-
+    	
     	$dto->retNumIdUnidadeGeradoraProtocolo();
     	$dto->retStrSiglaUnidadeGeradoraProtocolo();
     	$dto->retStrDescricaoUnidadeGeradoraProtocolo();
