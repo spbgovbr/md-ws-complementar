@@ -62,16 +62,9 @@ class CguWS extends InfraWS {
             }
 
             $objDocumentoDTO = new DocumentoDTO();
-            if($ProtocoloDocumento!='') {
-                $objDocumentoDTO->setStrProtocoloDocumentoFormatado($ProtocoloDocumento);
-            }
-            if($ProtocoloProcedimento!='') {
-                $objDocumentoDTO->setStrProtocoloProcedimentoFormatado($ProtocoloProcedimento);
-            }
-            if($NumeroDocumento!='') {
-                $objDocumentoDTO->setStrNumero($NumeroDocumento);
-            }
-
+            $objDocumentoDTO->setStrProtocoloDocumentoFormatado($ProtocoloDocumento);
+            $objDocumentoDTO->setStrProtocoloProcedimentoFormatado($ProtocoloProcedimento);
+            $objDocumentoDTO->setStrNumero($NumeroDocumento);
             $objDocumentoDTO->setNumIdSerie($Serie);
             $objDocumentoDTO->setNumIdUnidadeGeradoraProtocolo($UnidadeElaboradora);
 

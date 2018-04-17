@@ -403,7 +403,7 @@
 
   <wsdl:service name="CguService">
     <wsdl:port name="CguPortService" binding="tns:CguBinding">
-      <soap:address location="https://sei.cgu.gov.br/sei/modulos/cgu/wscomplementar/ws/CguWS.php"/>
+      <soap:address location="[servidor]/modulos/cgu/wscomplementar/ws/CguWS.php"/>
     </wsdl:port>
   </wsdl:service>
 

@@ -46,8 +46,7 @@ class CguRN extends InfraRN {
             $objInfraException->adicionarValidacao('Sinalizador de retorno para destinatários inválido.');
         }
 
-
-    	$dto = new DocumentoDTO();
+        $dto = new DocumentoDTO();
     	$dto->retDblIdDocumento();
     	$dto->retDblIdProcedimento();
     	$dto->retStrProtocoloDocumentoFormatado();
@@ -59,7 +58,8 @@ class CguRN extends InfraRN {
     	$dto->retDtaGeracaoProtocolo();
     	$dto->retStrStaProtocoloProtocolo();
     	$dto->retStrSinBloqueado();
-    	
+        $dto->retStrStaDocumento();
+
     	$dto->retNumIdUnidadeGeradoraProtocolo();
     	$dto->retStrSiglaUnidadeGeradoraProtocolo();
     	$dto->retStrDescricaoUnidadeGeradoraProtocolo();
@@ -67,6 +67,15 @@ class CguRN extends InfraRN {
 
 
         if ($objDocumentoDTO!='') {
+
+            if ($objDocumentoDTO->getStrProtocoloDocumentoFormatado()==''
+                && $objDocumentoDTO->getStrProtocoloProcedimentoFormatado() ==''
+                && $objDocumentoDTO->getStrNumero()==''
+                && $objDocumentoDTO->getNumIdSerie()=='') {
+
+                $objInfraException->lancarValidacao('É necessário informar ao menos um dos parâmetros da pesquisa.');
+
+            }
 
             if ($objDocumentoDTO->getStrProtocoloDocumentoFormatado()!='') {
                 $dto->setStrProtocoloDocumentoFormatadoPesquisa($objDocumentoDTO->getStrProtocoloDocumentoFormatado());
