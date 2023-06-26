@@ -59,6 +59,7 @@ class CguRN extends InfraRN {
     	$dto->retDtaGeracaoProtocolo();
     	$dto->retStrStaProtocoloProtocolo();
     	$dto->retStrSinBloqueado();
+        $dto->retStrStaDocumento();
     	
     	$dto->retNumIdUnidadeGeradoraProtocolo();
     	$dto->retStrSiglaUnidadeGeradoraProtocolo();
